@@ -12,8 +12,11 @@ last_detected_time = time.time()
 timeout = 0.1 * 60  # 15 minutes
 
 while True:
-    _, frame = cap.read()
-
+    ret, frame = cap.read()  # ret: 프레임을 제대로 읽었는지 여부
+    
+    if not ret:
+        continue  # 프레임을 제대로 읽어오지 못한 경우, 현재 프레임을 무시하고 다음 프레임으로 넘어감
+    
     with torch.no_grad():
         results = model(frame, size=640)
 
